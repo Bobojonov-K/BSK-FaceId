@@ -67,14 +67,13 @@ apiClient.interceptors.response.use(
 
     // Login/logout — 401 bu "noto'g'ri parol" yoki "invalid", refresh kerak emas
     if (
-      originalRequest.url?.includes('/auth/login') ||
-      originalRequest.url?.includes('/auth/logout')
+      originalRequest.url?.includes(authEndpoints.login) ||
+      originalRequest.url?.includes(authEndpoints.logout)
     ) {
       return Promise.reject(error);
     }
 
-    // Refresh endpoint'ning o'zi 401 bersa — loop'dan saqlanish
-    if (originalRequest.url?.includes('/auth/refresh')) {
+    if (originalRequest.url?.includes(authEndpoints.refresh)) {
       useAuthStore.getState().logout();
       window.location.href = '/login';
       return Promise.reject(error);
