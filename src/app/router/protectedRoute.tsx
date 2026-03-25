@@ -2,21 +2,20 @@ import { Spin } from "antd";
 import type { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "@/modules/auth/store/auth.store";
-import { useMe } from "@/modules/auth/hooks/useAuth";
 import React from "react";
+import {useMe} from "@/modules/auth/hooks/useAuth";
 
 interface ProtectedRouteProps {
     children: ReactNode;
 }
 
+
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
     const location = useLocation();
-    const { isAuthenticated, accessToken } = useAuthStore(); // isLoading olib tashlandi
+    const { isAuthenticated, isLoading } = useAuthStore();
 
-    const { isLoading: isMeLoading } = useMe();
-
-    // Faqat token bor va me yuklanayotgan bo'lsa kut
-    if (accessToken && isMeLoading) {
+    // AuthInitializer hali /me yuklamoqda — kut
+    if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <Spin size="large" />

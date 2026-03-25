@@ -15,7 +15,7 @@ export function useLogin() {
         mutationFn: (data: LoginRequest) => authService.login(data),
         onSuccess: (data) => {
 
-            setAuth(data.user, data.access_token, data.refresh_token);
+            setAuth(data.user, data.access_token, data.refresh_token  );
             setTimeout(() => navigate("/"), 0);
         },
         onError: (error) => {
@@ -25,23 +25,18 @@ export function useLogin() {
 }
 
 export function useMe() {
-    const { setUser, logout, accessToken } = useAuthStore();
+    const { setUser, accessToken } = useAuthStore();
 
     return useQuery({
         queryKey: authKeys.me(),
         queryFn: async () => {
-            try {
-                const user = await authService.getMe();
-                setUser(user);
-                return user;
-            } catch {
-                logout();
-                throw new Error('Sessiya muddati tugagan');
-            }
+            const user = await authService.getMe();
+            setUser(user);
+            return user;
         },
         enabled: !!accessToken,
         retry: false,
-        staleTime: 1000 * 60 * 5, // 5 daqiqa
+        staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
     });
 }
