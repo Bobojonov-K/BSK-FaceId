@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Search, Plus, Shield, Edit2, MoreVertical, CheckCircle, XCircle, Clock } from "lucide-react";
+import React from "react";
 
 // Mock data
 const usersData = [
