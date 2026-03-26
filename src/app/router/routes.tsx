@@ -12,7 +12,7 @@ import {Terminals} from "@/modules/terminals/pages/Terminals";
 import {Logs} from "@/modules/logs/pages/Logs";
 import {Reports} from "@/modules/reports/pages/Reports";
 import {Guests} from "@/modules/guests/pages/Guests";
-import {Users} from "@/modules/users/pages/Users";
+import { Users } from "@/modules/users/pages/Users";
 import {Settings} from "@/modules/settings/pages/Settings";
 import {MainLayout} from "@shared/components/layout/MainLayout";
 import {ResidentsPage} from "@/modules/residents/pages/Residents";
