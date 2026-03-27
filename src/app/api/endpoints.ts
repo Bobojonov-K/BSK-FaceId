@@ -1,36 +1,42 @@
 export const authEndpoints = {
-    login: "/api/v1/auth/login",
-    logout: "/api/v1/auth/logout",
-    refresh: "/api/v1/auth/refresh",
-    me: "/api/v1/auth/me",
+    login: "auth/login",
+    logout: "auth/logout",
+    refresh: "auth/refresh",
+    me: "auth/me",
 } as const;
 
+
+// ---------- --------------------------------------- RESIDENTS ----------------------
 export const residentEndpoints = {
-    list: "/api/v1/residents",
-    detail: (id: number) => `/api/v1/residents/${id}`,
-    create: "/api/v1/residents",
-
-    update: (id: number) => `/api/v1/residents/${id}`,
-
-    status: (id: number) => `/api/v1/residents/${id}/status`,
-
-    delete: (id: number) => `/api/v1/residents/${id}`,
-
-    transfer: (id: number) => `/api/v1/residents/${id}/transfer`,
-
-    history: (id: number) => `/api/v1/residents/${id}/history`,
-
+    list: "residents",
+    detail: (id: number) => `residents/${id}`,
+    create: "residents",
+    update: (id: number) => `residents/${id}`,
+    status: (id: number) => `residents/${id}/status`,
+    delete: (id: number) => `residents/${id}`,
+    transfer: (id: number) => `residents/${id}/transfer`,
+    history: (id: number) => `residents/${id}/history`,
     facePhotos: (residentId: number) =>
-        `/api/v1/residents/${residentId}/face-photos`,
-
+        `residents/${residentId}/face-photos`,
     facePhotoDetail: (residentId: number, templateId: number) =>
-        `/api/v1/residents/${residentId}/face-photos/${templateId}`,
-
+        `residents/${residentId}/face-photos/${templateId}`,
     facePhotoPrimary: (residentId: number, templateId: number) =>
-        `/api/v1/residents/${residentId}/face-photos/${templateId}/set-primary`,
-    access: (residentId: number) => `/api/v1/residents/${residentId}/access`,
+        `residents/${residentId}/face-photos/${templateId}/set-primary`,
+    access: (residentId: number) => `residents/${residentId}/access`,
     accessDetail: (residentId: number, terminalId: number) =>
-        `/api/v1/residents/${residentId}/access/${terminalId}`,
-    bulkBlock: "/api/v1/residents/bulk-block",
-    bulkTransfer: "/api/v1/residents/bulk-transfer",
+        `residents/${residentId}/access/${terminalId}`,
+    bulkBlock: "residents/bulk-block",
+    bulkTransfer: "residents/bulk-transfer",
 };
+
+
+
+//------------------------------------------------------- BUILDINGS -------------------------
+
+export const buildingEndpoints = {
+    list: "/buildings",
+    create: "/buildings",
+    detail: (id: number) => `/buildings/${id}`,
+    update: (id: number) => `/buildings/${id}`,
+    delete: (id: number) => `/buildings/${id}`,
+} as const;

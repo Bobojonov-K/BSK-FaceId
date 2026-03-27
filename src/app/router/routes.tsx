@@ -8,7 +8,6 @@ import {RouteObject} from "react-router";
 import {Login} from "@/modules/auth/pages/Login";
 
 import {Dashboard} from "@/modules/dashboard/pages/Dashboard";
-import {Buildings} from "@/modules/buildings/pages/Buildings";
 import {Terminals} from "@/modules/terminals/pages/Terminals";
 import {Logs} from "@/modules/logs/pages/Logs";
 import {Reports} from "@/modules/reports/pages/Reports";
@@ -17,6 +16,8 @@ import {Users} from "@/modules/users/pages/Users";
 import {Settings} from "@/modules/settings/pages/Settings";
 import {MainLayout} from "@shared/components/layout/MainLayout";
 import {ResidentsPage} from "@/modules/residents/pages/Residents";
+import {Buildings} from "@/modules/buildings/pages/Buildings";
+// import Buildings from "@/modules/buildings/pages/Buildings";
 
 export const routes: RouteObject[] = [
   // Public routes - Auth
