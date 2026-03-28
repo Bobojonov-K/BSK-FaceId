@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Save, Shield, Bell, Database, FileText } from "lucide-react";
-
+import React from "react";
 export function Settings() {
   const [activeTab, setActiveTab] = useState("system");
 
