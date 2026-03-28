@@ -47,6 +47,7 @@ export const BuildingTable: React.FC<Props> = ({
             title: "Manzil",
             dataIndex: "address",
             key: "address",
+            align:"center",
             render: (address) => (
                 <Space>
                     <EnvironmentOutlined style={{ color: "#1890ff" }} />
@@ -57,6 +58,7 @@ export const BuildingTable: React.FC<Props> = ({
         {
             title: "Tuzilishi",
             key: "structure",
+            align:"center",
             render: (_, record) => (
                 <Text>
                     {record.total_floors ?? 0} qavat / {record.total_entrances ?? 0} yo'lak
@@ -64,23 +66,36 @@ export const BuildingTable: React.FC<Props> = ({
             ),
         },
         {
-            title: "Statistika",
+            title: "Residentlar",
             key: "stats",
+            align:'center',
             render: (_, record) => (
                 <Space size="middle">
                     <Tooltip title="Rezidentlar">
                         <span><UserOutlined /> {record.resident_count}</span>
                     </Tooltip>
+
+                </Space>
+            ),
+        },
+        {
+            title: "Terminallar",
+            key: "stats",
+            align:"center",
+            render: (_, record) => (
+                <Space size="middle">
                     <Tooltip title="Terminallar">
                         <span><DesktopOutlined /> {record.terminal_count}</span>
                     </Tooltip>
                 </Space>
             ),
         },
+
         {
             title: "Holati",
             dataIndex: "is_active",
             key: "is_active",
+            align:"center",
             render: (isActive: boolean) => (
                 <Tag color={isActive ? "success" : "error"}>
                     {isActive ? "FAOL" : "NOFAOL"}
@@ -91,6 +106,7 @@ export const BuildingTable: React.FC<Props> = ({
             title: "Sana",
             dataIndex: "created_at",
             key: "created_at",
+            align:"center",
             render: (date: number) => dayjs.unix(date).format("DD.MM.YYYY"),
         },
         {
