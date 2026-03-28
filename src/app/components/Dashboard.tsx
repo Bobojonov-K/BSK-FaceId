@@ -11,7 +11,6 @@ import {
   AlertTriangle,
   Clock
 } from "lucide-react";
-import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 // Mock data
@@ -109,8 +108,6 @@ const suspiciousEvents = [
 ];
 
 export function Dashboard() {
-  // @ts-ignore
-  // @ts-ignore
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -164,8 +161,8 @@ export function Dashboard() {
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              {/*<XAxis dataKey="date" stroke="#9ca3af" style={{ fontSize: '12px' }} />*/}
-              {/*<YAxis stroke="#9ca3af" style={{ fontSize: '12px' }} />*/}
+              <XAxis dataKey="date" stroke="#9ca3af" style={{ fontSize: '12px' }} />
+              <YAxis stroke="#9ca3af" style={{ fontSize: '12px' }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: 'white', 

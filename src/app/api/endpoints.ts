@@ -40,3 +40,19 @@ export const buildingEndpoints = {
     update: (id: number) => `/buildings/${id}`,
     delete: (id: number) => `/buildings/${id}`,
 } as const;
+
+export const organizationEndpoints = {
+    list: "/organizations",
+    detail: (id: number) => `/organizations/${id}`,
+    create: "/organizations",
+    update: (id: number) => `/organizations/${id}`,
+    delete: (id: number) => `/organizations/${id}`,
+};
+
+export const organizationTypeEndpoints = {
+    list: "/organization-types",
+    detail: (id: number) => `/organization-types/${id}`,
+    create: "/organization-types",
+    update: (id: number) => `/organization-types/${id}`,
+    delete: (id: number) => `/organization-types/${id}`,
+};
