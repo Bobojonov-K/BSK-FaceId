@@ -61,13 +61,7 @@ export function UserActionsMenu({ user }: Props) {
         {open && (
           <div className="absolute right-0 top-10 z-50 w-52 bg-white rounded-xl border border-gray-100 shadow-lg py-1">
 
-            <button
-              onClick={() => { setShowBuildings(true); setOpen(false); }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-blue-700 hover:bg-blue-50 transition-colors"
-            >
-              <Building2 className="w-4 h-4" />
-              Bino biriktirish
-            </button>
+
 
             <button
               onClick={() => { setShowReset(true); setOpen(false); }}

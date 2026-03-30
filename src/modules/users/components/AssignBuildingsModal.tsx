@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { X, Loader2, Building2, Check } from "lucide-react";
+import { Modal, Button, Checkbox, Typography, Space, Empty, Spin } from "antd";
+import { BankOutlined } from "@ant-design/icons";
 import { useBuildings, useSetUserBuildings } from "../hooks/useBuildings";
 import type { User } from "../types/users";
+
+const { Text, Title } = Typography;
+
+/* ================= TYPES ================= */
 
 interface Props {
   open: boolean;
@@ -40,28 +45,44 @@ function AssignBuildingsModalInner({
   const selectedCount = selectedIds.length;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6 relative">
-
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">Binolar biriktirish</h2>
-            <p className="text-sm text-gray-500 mt-0.5">{user.full_name}</p>
-          </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <X className="w-5 h-5 text-gray-500" />
-          </button>
-        </div>
-
-        {/* List */}
-        <div className="max-h-72 overflow-y-auto space-y-2 mb-6">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-10">
-              <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
-            </div>
-          ) : buildings.length === 0 ? (
-            <p className="text-center text-gray-400 py-10">Binolar topilmadi</p>
+    <Modal
+      open
+      onCancel={onClose}
+      title={
+        <Space direction="vertical" size={0}>
+          <Title level={5} style={{ margin: 0 }}>Binolar biriktirish</Title>
+          <Text type="secondary" style={{ fontWeight: 400 }}>{user.full_name}</Text>
+        </Space>
+      }
+      footer={[
+        <Button key="cancel" onClick={onClose}>
+          Bekor qilish
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          loading={isPending}
+          disabled={selectedCount === 0}
+          onClick={handleSubmit}
+        >
+          {selectedCount > 0 ? `${selectedCount} ta binoni saqlash` : "Saqlash"}
+        </Button>,
+      ]}
+      width={480}
+    >
+      <Spin spinning={isLoading}>
+        <div
+          style={{
+            maxHeight: 320,
+            overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+            padding: "8px 0",
+          }}
+        >
+          {!isLoading && buildings.length === 0 ? (
+            <Empty description="Binolar topilmadi" image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             buildings.map((building) => (
               <BuildingItem
@@ -73,38 +94,8 @@ function AssignBuildingsModalInner({
             ))
           )}
         </div>
-
-        {selectedCount > 0 && (
-          <p className="text-sm text-blue-600 mb-4 text-center">
-            {selectedCount} ta bino tanlandi
-          </p>
-        )}
-
-        {/* Footer */}
-        <div className="flex gap-3">
-          <button
-            onClick={onClose}
-            className="flex-1 h-11 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            Bekor qilish
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={isPending || selectedCount === 0}
-            className="flex-1 h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
-          >
-            {isPending ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Saqlanmoqda...
-              </>
-            ) : (
-              "Saqlash"
-            )}
-          </button>
-        </div>
-      </div>
-    </div>
+      </Spin>
+    </Modal>
   );
 }
 
@@ -120,29 +111,46 @@ function BuildingItem({
   onToggle: (id: number) => void;
 }) {
   return (
-    <button
+    <div
       onClick={() => onToggle(building.id)}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
-        isSelected
-          ? "border-blue-500 bg-blue-50"
-          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-      }`}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        padding: "10px 14px",
+        borderRadius: 10,
+        border: `1px solid ${isSelected ? "#3b82f6" : "#e5e7eb"}`,
+        backgroundColor: isSelected ? "#eff6ff" : "#fff",
+        cursor: "pointer",
+        transition: "all 0.2s",
+      }}
     >
       <div
-        className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-          isSelected ? "bg-blue-600" : "bg-gray-100"
-        }`}
+        style={{
+          width: 32,
+          height: 32,
+          borderRadius: 8,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+          backgroundColor: isSelected ? "#2563eb" : "#f3f4f6",
+          color: isSelected ? "#fff" : "#6b7280",
+          fontSize: 16,
+        }}
       >
-        {isSelected ? (
-          <Check className="w-4 h-4 text-white" />
-        ) : (
-          <Building2 className="w-4 h-4 text-gray-500" />
-        )}
+        <BankOutlined />
       </div>
-      <span className={`text-sm font-medium ${isSelected ? "text-blue-700" : "text-gray-700"}`}>
+
+      <Text
+        strong={isSelected}
+        style={{ flex: 1, color: isSelected ? "#1d4ed8" : "#374151" }}
+      >
         {building.name}
-      </span>
-    </button>
+      </Text>
+
+      <Checkbox checked={isSelected} />
+    </div>
   );
 }
 
