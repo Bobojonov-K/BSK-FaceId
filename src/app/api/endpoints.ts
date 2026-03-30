@@ -56,3 +56,15 @@ export const organizationTypeEndpoints = {
     update: (id: number) => `/organization-types/${id}`,
     delete: (id: number) => `/organization-types/${id}`,
 };
+
+
+export const userEndpoints = {
+    list: "/users",
+    detail: (id: number) => `/users/${id}`,
+    create: "/users",
+    update: (id: number) => `/users/${id}`,
+    delete: (id: number) => `/users/${id}`,
+    changeStatus: (id: number) => `/users/${id}/status`,
+    setBuildings: (id: number) => `/users/${id}/buildings`,
+    resetPassword: (id: number) => `/users/${id}/reset-password`,
+};
