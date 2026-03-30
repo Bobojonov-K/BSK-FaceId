@@ -11,6 +11,7 @@ import {
   AlertTriangle,
   Clock
 } from "lucide-react";
+import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 // Mock data

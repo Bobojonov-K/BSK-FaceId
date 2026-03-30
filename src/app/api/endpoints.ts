@@ -40,30 +40,3 @@ export const buildingEndpoints = {
     update: (id: number) => `/buildings/${id}`,
     delete: (id: number) => `/buildings/${id}`,
 } as const;
-
-
-//------------------------------------------------------- USERS -------------------------
-
-export const userEndpoints = {
-    list:           "users",
-    create:         "users",
-    detail:         (id: number) => `users/${id}`,
-    update:         (id: number) => `users/${id}`,
-    delete:         (id: number) => `users/${id}`,
-    status:         (id: number) => `users/${id}/status`,
-    buildings:      (id: number) => `users/${id}/buildings`,
-    resetPassword:  (id: number) => `users/${id}/reset-password`,
-  } as const;
-
-
-  //------------------------------------------------------- ORGANIZATIONS -------------------------
-
-export const organizationEndpoints = {
-    list: "organizations",
-    detail: (id: number) => `organizations/${id}`,
-  } as const;
-
-
-  export const users = {
-    users : '/users'
-  }

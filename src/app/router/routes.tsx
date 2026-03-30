@@ -17,6 +17,8 @@ import {Settings} from "@/modules/settings/pages/Settings";
 import {MainLayout} from "@shared/components/layout/MainLayout";
 import {ResidentsPage} from "@/modules/residents/pages/Residents";
 import {Buildings} from "@/modules/buildings/pages/Buildings";
+import {Organizations} from "@/modules/organizations/pages/organizations";
+import {OrganizationTypes} from "@/modules/organizations-types/pages/OrganizationTypes";
 // import Buildings from "@/modules/buildings/pages/Buildings";
 
 export const routes: RouteObject[] = [
@@ -40,6 +42,8 @@ export const routes: RouteObject[] = [
       { path: "logs", element: <Logs /> },
       { path: "reports", element: <Reports /> },
       { path: "guests", element: <Guests /> },
+      {path:'organizations', element: <Organizations /> },
+      {path:'organizations-types', element: <OrganizationTypes /> },
       { path: "users", element: <Users /> },
       { path: "settings", element: <Settings /> },
     ],
