@@ -3,7 +3,7 @@
 import apiClient from "@/app/api/client";
 import type { User, CreateUserRequest, UpdateUserRequest } from "@/shared/types/user";
 import type { SuccessResponse } from "@/shared/types/response";
-import { users } from "@/app/api/endpoints";
+
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -37,7 +37,7 @@ export interface GetUsersParams {
 // ─── API Functions ─────────────────────────────────────────────────────────────
 
 export async function getUsers(params: GetUsersParams = {}): Promise<UsersResponse> {
-  const { data } = await apiClient.get<UsersResponse>( users.users, { params });
+  const { data } = await apiClient.get<UsersResponse>( 'users', { params });
   return data;
 }
 
