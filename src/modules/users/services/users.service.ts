@@ -1,5 +1,4 @@
 import apiClient from "@/app/api/client";
-import { userEndpoints } from "@/app/api/endpoints";
 import type {
   UsersListResponse,
   UsersQueryParams,
@@ -10,6 +9,7 @@ import type {
   ResetPasswordResponse,
   SetBuildingsRequest,
 } from "../types/users";
+import { userEndpoints } from "@/app/api/endpoints";
 
 export const userService = {
 
@@ -63,7 +63,7 @@ export const userService = {
 
   // ─── Status o'zgartirish ──────────────────────────────────────────
   async updateStatus(id: number, data: UpdateUserStatusRequest): Promise<void> {
-    await apiClient.patch(userEndpoints.status(id), data);
+    await apiClient.patch(userEndpoints.changeStatus(id), data);
   },
 
   // ─── Parol tiklash ────────────────────────────────────────────────
@@ -77,6 +77,7 @@ export const userService = {
 
   // ─── Binolar biriktirish ──────────────────────────────────────────
   async setBuildings(id: number, data: SetBuildingsRequest): Promise<void> {
-    await apiClient.patch(userEndpoints.buildings(id), data);
+    await apiClient.patch(userEndpoints.setBuildings
+      (id), data);
   },
 };
