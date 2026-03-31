@@ -19,6 +19,7 @@ import {ResidentsPage} from "@/modules/residents/pages/Residents";
 import {Buildings} from "@/modules/buildings/pages/Buildings";
 import {Organizations} from "@/modules/organizations/pages/organizations";
 import {OrganizationTypes} from "@/modules/organizations-types/pages/OrganizationTypes";
+import { SoatoRegionsPage } from "@/modules/soato-regions/pages/SoatoRegionsPage";
 // import Buildings from "@/modules/buildings/pages/Buildings";
 
 export const routes: RouteObject[] = [
@@ -46,6 +47,7 @@ export const routes: RouteObject[] = [
       {path:'organizations-types', element: <OrganizationTypes /> },
       { path: "users", element: <Users /> },
       { path: "settings", element: <Settings /> },
+      { path: "soato-regions", element: <SoatoRegionsPage /> },
     ],
   },
 

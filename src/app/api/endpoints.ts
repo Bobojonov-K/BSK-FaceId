@@ -68,3 +68,14 @@ export const userEndpoints = {
     setBuildings: (id: number) => `/users/${id}/buildings`,
     resetPassword: (id: number) => `/users/${id}/reset-password`,
 };
+
+export const soatoRegionEndpoints = {
+  list: '/soato-regions',
+  create: '/soato-regions',
+  regions: '/soato-regions/regions',
+  districts: '/soato-regions/districts',
+  detail: (id: number) => `/soato-regions/${id}`,
+  update: (id: number) => `/soato-regions/${id}`,
+  delete: (id: number) => `/soato-regions/${id}`,
+};
+ 
