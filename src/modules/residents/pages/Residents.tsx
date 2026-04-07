@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Button, Card, Divider, Modal, Typography } from 'antd';
+import { Button, Card, Divider, Modal, Typography, Grid } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
 
 import {
   useResidents,
@@ -16,7 +15,6 @@ import {
 import type {
   CreateResidentRequest,
   ResidentListItem,
-  ResidentStatus,
   ResidentsQueryParams,
   TransferResidentRequest,
   UpdateResidentRequest,
@@ -32,7 +30,7 @@ import { Building } from '@/modules/buildings/types/building';
 import { useBuildings } from '@/modules/buildings/hooks/useBuilding';
 
 const { Title, Text } = Typography;
-// Real loyihada API dan olinadi
+const { useBreakpoint } = Grid;
 
 const STATUS_LABELS: Record<
   string,
@@ -40,37 +38,37 @@ const STATUS_LABELS: Record<
 > = {
   active: {
     title: 'Rezidentni faollashtirish',
-    content: (name: string) => `"${name}" ni faollashtirishni tasdiqlaysizmi?`,
+    content: (name) => `"${name}" ni faollashtirishni tasdiqlaysizmi?`,
     okText: 'Faollashtirish',
     danger: false,
   },
   blocked: {
     title: 'Rezidentni bloklash',
-    content: (name: string) => `"${name}" ni bloklashni tasdiqlaysizmi?`,
+    content: (name) => `"${name}" ni bloklashni tasdiqlaysizmi?`,
     okText: 'Bloklash',
     danger: true,
   },
   archived: {
     title: 'Rezidentni arxivlash',
-    content: (name: string) => `"${name}" ni arxivlashni tasdiqlaysizmi?`,
+    content: (name) => `"${name}" ni arxivlashni tasdiqlaysizmi?`,
     okText: 'Arxivlash',
     danger: false,
   },
   deleted: {
-    title: "Rezidentni statusni o'chirish",
-    content: (name: string) =>
-      `"${name}" ni o'chirishni tasdiqlaysizmi? Bu amalni bekor qilib bo'lmaydi.`,
+    title: "Rezidentni o'chirish",
+    content: (name) => `"${name}" ni o'chirishni tasdiqlaysizmi? Bu amalni bekor qilib bo'lmaydi.`,
     okText: "O'chirish",
     danger: true,
   },
 };
 
 export function ResidentsPage() {
-  const navigate = useNavigate();
+  const screens = useBreakpoint();
+  const isMobile = !screens.md;
 
-  const { data: buildingsData, isLoading: buildingsLoading } = useBuildings();
+  const { data: buildingsData } = useBuildings();
   const BUILDINGS: Building[] = buildingsData?.buildings ?? [];
-  // ─── Query params ────────────────────────────────────────────────
+
   const [params, setParams] = useState<ResidentsQueryParams>({
     page: 1,
     per_page: 20,
@@ -83,22 +81,18 @@ export function ResidentsPage() {
     [],
   );
 
-  // ─── Data ────────────────────────────────────────────────────────
   const { data, isLoading } = useResidents(params);
   const residents = data?.residents ?? [];
   const total = data?.pagination?.total_items ?? 0;
 
-  // ─── Selection ───────────────────────────────────────────────────
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const clearSelection = () => setSelectedIds([]);
 
-  // ─── Modal state ─────────────────────────────────────────────────
   const [addOpen, setAddOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<ResidentListItem | null>(null);
   const [transferTarget, setTransferTarget] = useState<ResidentListItem | null>(null);
   const [bulkTransferOpen, setBulkTransferOpen] = useState(false);
 
-  // ─── Mutations ───────────────────────────────────────────────────
   const createMutation = useCreateResident();
   const updateMutation = useUpdateResident(editTarget?.id ?? 0);
   const statusMutation = useUpdateResidentStatus();
@@ -106,8 +100,6 @@ export function ResidentsPage() {
   const transferMutation = useTransferResident(transferTarget?.id ?? 0);
   const bulkBlockMutation = useBulkBlockResidents();
   const bulkTransferMutation = useBulkTransferResidents();
-
-  // ─── Handlers ────────────────────────────────────────────────────
 
   const handleAdd = async (values: CreateResidentRequest) => {
     await createMutation.mutateAsync(values);
@@ -140,7 +132,7 @@ export function ResidentsPage() {
   const handleDelete = (resident: ResidentListItem) => {
     Modal.confirm({
       title: "Rezidentni o'chirish",
-      content: `"${resident.full_name}" ni o'chirishni tasdiqlaysizmi? Bu amalni bekor qilib bo'lmaydi.`,
+      content: `"${resident.full_name}" ni o'chirishni tasdiqlaysizmi?`,
       okText: "O'chirish",
       okButtonProps: { danger: true },
       cancelText: 'Bekor qilish',
@@ -171,28 +163,26 @@ export function ResidentsPage() {
   const handleBulkTransfer = async (
     values: Omit<{ new_building_id: number; reason?: string }, never>,
   ) => {
-    await bulkTransferMutation.mutateAsync({
-      resident_ids: selectedIds,
-      ...values,
-    });
+    await bulkTransferMutation.mutateAsync({ resident_ids: selectedIds, ...values });
     setBulkTransferOpen(false);
     clearSelection();
   };
 
-  // ─── Render ──────────────────────────────────────────────────────
   return (
-    <div>
+    <div style={{ paddingBottom: isMobile ? 24 : 0 }}>
       {/* Header */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
+          flexWrap: 'wrap',
+          gap: 12,
           marginBottom: 24,
         }}
       >
         <div>
-          <Title level={3} style={{ margin: 0 }}>
+          <Title level={isMobile ? 4 : 3} style={{ margin: 0 }}>
             Rezidentlar
           </Title>
           <Text type='secondary'>Barcha rezidentlarni boshqarish</Text>
@@ -200,14 +190,15 @@ export function ResidentsPage() {
         <Button
           type='primary'
           icon={<PlusOutlined />}
-          size='large'
+          size={isMobile ? 'middle' : 'large'}
           onClick={() => setAddOpen(true)}
+          style={isMobile ? { width: '100%' } : undefined}
         >
           Rezident qo'shish
         </Button>
       </div>
 
-      <Card>
+      <Card styles={{ body: { padding: isMobile ? '12px' : '24px' } }}>
         <ResidentFilters params={params} buildings={BUILDINGS} onChange={updateParams} />
 
         {selectedIds.length > 0 && (
@@ -240,7 +231,6 @@ export function ResidentsPage() {
         />
       </Card>
 
-      {/* Modals */}
       <AddResidentModal
         open={addOpen}
         buildings={BUILDINGS}
@@ -248,14 +238,12 @@ export function ResidentsPage() {
         onSubmit={handleAdd}
         onCancel={() => setAddOpen(false)}
       />
-
       <EditResidentModal
         resident={editTarget}
         loading={updateMutation.isPending}
         onSubmit={handleEdit}
         onCancel={() => setEditTarget(null)}
       />
-
       <TransferResidentModal
         resident={transferTarget}
         buildings={BUILDINGS}
@@ -263,7 +251,6 @@ export function ResidentsPage() {
         onSubmit={handleTransfer}
         onCancel={() => setTransferTarget(null)}
       />
-
       <BulkTransferModal
         open={bulkTransferOpen}
         count={selectedIds.length}
